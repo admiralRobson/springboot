@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.BrandModel;
@@ -18,10 +19,12 @@ public class BrandService {
 
 	private final BrandRepository brandRepository;
 	
-	public List<BrandModel> getBrands(int page, int size, String sortDir, String sort) {
+	public List<BrandModel> getBrands(int page, int size,String sort) {
+		//Sort.Direction.ASC;
 		
-		PageRequest pageReq = PageRequest.of(page, size,Sort.Direction.fromString(sortDir),sort);
-		return brandRepository.findAllBrands(pageReq);
+		PageRequest pageReq = PageRequest.of(page, size,Direction.ASC,"id");
+		//PageRequest pageReq = PageRequest.of(page, size,Sort.Direction.fromString(sortDir),sort);
+				return brandRepository.findBrandModels(pageReq);
 	}
 	
 	public BrandModel getSingleBrand(long id) {

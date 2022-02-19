@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,13 +25,13 @@ public class BrandController {
 	
 	private final BrandService brandService;
 	
-	
-	
+	private static int pagesize = 20; 
+	private static int pagenumber = 1;
 	
 	
 	@GetMapping("/brands")
 	public List<BrandModel> getBrands() {
-		return brandService.getBrands();
+		return brandService.getBrands(pagenumber,pagesize, "id");
 	}
 	
 	@GetMapping("/brands/{id}")

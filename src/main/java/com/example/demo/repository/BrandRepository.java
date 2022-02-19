@@ -12,7 +12,6 @@ import com.example.demo.model.BrandModel;
 @Repository
 public interface BrandRepository extends JpaRepository<BrandModel, Long>{
 	
-	@Override
 	@Query("select distinct b from BrandModel b join fetch b.drugs")
-	List<BrandModel> findAllBrands(Pageable page);
+	List<BrandModel> findBrandModels(Pageable page);
 }
