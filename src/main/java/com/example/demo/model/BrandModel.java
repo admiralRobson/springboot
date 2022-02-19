@@ -23,6 +23,9 @@ public class BrandModel {
 	@Column(name = "NAME")
 	private String name;
 	
+	@OneToMany
+	@JoinColumn(name = "brand_id")
+	private List<DrugModel> drugs;
 	
 	/*
 	 * @OneToMany

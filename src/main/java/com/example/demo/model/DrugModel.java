@@ -16,8 +16,8 @@ public class DrugModel {
 	@Id
 	@Column(name = "ID")
 	private long id; 
-	@Column(name = "BRAND_NAME")
-	private String brand_name; 
+	@Column(name = "BRAND_ID")
+	private int brand_id; 
 	@Column(name = "NAME")
 	private String name;
 	@Column(name = "BLOZ")
