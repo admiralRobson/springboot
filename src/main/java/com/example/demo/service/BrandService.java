@@ -7,7 +7,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.controller.BrandDtoMapper;
 import com.example.demo.model.BrandModel;
+import com.example.demo.model.dtos.BrandDto;
 import com.example.demo.repository.BrandRepository;
 
 
@@ -27,9 +29,9 @@ public class BrandService {
 				return brandRepository.findBrandModels(pageReq);
 	}
 	
-	public BrandModel getSingleBrand(long id) {
-		return brandRepository.findById(id)
-				.orElseThrow();
+	public BrandDto getSingleBrand(long id) {
+		return BrandDtoMapper.mapToBrandDto(brandRepository.findById(id)
+				.orElseThrow());
 		
 	}
 	

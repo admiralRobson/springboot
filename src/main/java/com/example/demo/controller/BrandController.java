@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.BrandModel;
@@ -25,17 +26,20 @@ public class BrandController {
 	
 	private final BrandService brandService;
 	
-	private static int pagesize = 20; 
-	private static int pagenumber = 1;
+	
+	
+	private static int pagesize = 10; 
 	
 	
 	@GetMapping("/brands")
-	public List<BrandModel> getBrands() {
-		return brandService.getBrands(pagenumber,pagesize, "id");
+	private List<BrandDto> converttoDto(@RequestParam(required = false) Integer page, String sort) {
+		int pagenumber = page != null ? page :0;
+		String sortcolumn = sort != null ? sort : "id";
+		return BrandDtoMapper.mapToBrandDtos(brandService.getBrands(pagenumber, pagesize, sortcolumn));
 	}
 	
 	@GetMapping("/brands/{id}")
-	public BrandModel getSingleBrand(@PathVariable long id)
+	public BrandDto getSingleBrand(@PathVariable long id)
 	{
 		return brandService.getSingleBrand(id);
 	}
@@ -45,8 +49,5 @@ public class BrandController {
 		brandService.deleteBrand(id);
 	}
 	
-	private BrandDto converttoDto(BrandModel brand) {
-		return null;
-	}
 	
 }

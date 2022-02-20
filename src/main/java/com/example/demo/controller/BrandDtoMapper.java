@@ -3,12 +3,17 @@ package com.example.demo.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.example.demo.model.BrandModel;
 import com.example.demo.model.dtos.BrandDto;
+import com.example.demo.service.BrandService;
+
+import lombok.RequiredArgsConstructor;
+
 
 public class BrandDtoMapper {
-	
-	
+
 	private BrandDtoMapper() {
 	}
 	
@@ -18,15 +23,11 @@ public class BrandDtoMapper {
 				.collect(Collectors.toList());
 	}
 	
-	
-	
-	
-	private static BrandDto mapToBrandDto(BrandModel brand) {
+	public static BrandDto mapToBrandDto(BrandModel brand) {
 		return BrandDto.builder()
 				.id(brand.getId())
 				.name(brand.getName())
 				.build();
-	}
-	
+	}	
 	
 }

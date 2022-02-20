@@ -6,12 +6,9 @@ import lombok.Setter;
 
 @Getter
 @Builder
-public class BrandDto {
-		
+public class BrandDto {		
 	
 	private long id; 
 	private String name; 
-	
-	
 	
 }
