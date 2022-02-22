@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -21,6 +23,8 @@ public class BrandService {
 
 	private final BrandRepository brandRepository;
 	
+	
+	@Cacheable(cacheNames = "getBrands")
 	public List<BrandModel> getBrands(int page, int size,String sort) {
 		//Sort.Direction.ASC;
 		
@@ -29,11 +33,20 @@ public class BrandService {
 				return brandRepository.findBrandModels(pageReq);
 	}
 	
+	
+	@Cacheable(cacheNames = "getSingleBrand",key = "#id")
 	public BrandDto getSingleBrand(long id) {
 		return BrandDtoMapper.mapToBrandDto(brandRepository.findById(id)
 				.orElseThrow());
 		
 	}
+	
+	@CacheEvict(cacheNames = "getBrands")
+	public void deletebrands() {
+		brandRepository.deleteAll();
+		
+	}
+	
 	
 	
 	public void deleteBrand(long id) {
