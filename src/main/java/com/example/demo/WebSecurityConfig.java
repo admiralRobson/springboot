@@ -39,26 +39,24 @@ public class WebSecurityConfig extends
 		.password("{bcrypt}" + new BCryptPasswordEncoder().encode("test"))
 		.roles("USER");
 	}		
-	@Override
-	  protected void configure(HttpSecurity http) throws Exception {
-//	    http.csrf().disable(); // 1
-	    http
-	      .authorizeRequests()
-	      .antMatchers("/").permitAll() // 2
-	      .antMatchers("/h2-console/**").permitAll()
-	      .antMatchers("/swagger-ui.html/**").permitAll()
-	      .anyRequest().authenticated()
-	      .and()
-	      .formLogin().permitAll()
-	      .and()
-	      .exceptionHandling()
-	      .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));// 3
-	    
-	 // this will ignore only h2-console csrf, spring security 4+
-        http.csrf().ignoringAntMatchers("/h2-console/**");
-        //this will allow frames with same origin which is much more safe
-        http.headers().frameOptions().sameOrigin();
-	  }
+	  @Override
+	    protected void configure(HttpSecurity http) throws Exception {
+	        http.csrf().disable();
+	        http
+	                .authorizeRequests()
+	                .antMatchers("/swagger-ui.html").permitAll()
+	                .antMatchers("/v2/api-docs").permitAll()
+	                .antMatchers("/webjars/**").permitAll()
+	                .antMatchers("/swagger-resources/**").permitAll()
+	                .antMatchers("/h2-console/**").permitAll()
+	                .anyRequest().authenticated()	                
+	                .and()
+	                .addFilter(authenticationFilter())	      
+	                .exceptionHandling()
+	                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+	                .and()
+	                .headers().frameOptions().disable();
+	    }
 	
 	public JsonObjectAuthenticationFilter authenticationFilter() throws Exception {
 		JsonObjectAuthenticationFilter authenticationFilter = new JsonObjectAuthenticationFilter(objectMapper);
