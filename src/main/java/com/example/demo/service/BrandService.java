@@ -48,7 +48,7 @@ public class BrandService {
 	}
 	
 	
-	
+	@CacheEvict(cacheNames = "getSingleBrand", key = "#id")
 	public void deleteBrand(long id) {
 		brandRepository.deleteById(id);
 	}
