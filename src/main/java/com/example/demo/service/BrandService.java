@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.controller.BrandDtoMapper;
 import com.example.demo.model.BrandModel;
@@ -40,6 +41,20 @@ public class BrandService {
 				.orElseThrow());
 		
 	}
+	
+	
+	public BrandModel saveBrand(BrandModel brand) {
+		return brandRepository.save(brand);
+	}
+	
+	@Transactional
+	public BrandModel updateBrand(BrandModel brand) {
+		BrandModel brandedited =  brandRepository.findById(brand.getId()).orElseThrow();
+		brandedited.setName(brand.getName());
+		return brandedited;
+	}
+	
+	
 	
 	@CacheEvict(cacheNames = "getBrands")
 	public void deletebrands() {

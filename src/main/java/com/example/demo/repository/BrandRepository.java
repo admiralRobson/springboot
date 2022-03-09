@@ -14,4 +14,7 @@ public interface BrandRepository extends JpaRepository<BrandModel, Long>{
 	
 	@Query("select distinct b from BrandModel b join fetch b.drugs")
 	List<BrandModel> findBrandModels(Pageable page);
+	
+	
+	
 }

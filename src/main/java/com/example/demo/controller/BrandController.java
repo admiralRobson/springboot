@@ -8,6 +8,10 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,11 +27,9 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class BrandController {
+
 	
 	private final BrandService brandService;
-	
-	
-	
 	private static int pagesize = 10; 
 	
 	
@@ -35,7 +37,7 @@ public class BrandController {
 	private List<BrandDto> converttoDto(@RequestParam(required = false) Integer page, String sort) {
 		int pagenumber = page != null ? page :0;
 		String sortcolumn = sort != null ? sort : "id";
-		return BrandDtoMapper.mapToBrandDtos(brandService.getBrands(pagenumber, pagesize, sortcolumn));
+		return BrandDtoMapper.mapToBrandDtos(brandService.getBrands(pagenumber, pagesize, "id"));
 	}
 	
 	@GetMapping("/brands/{id}")
@@ -44,10 +46,18 @@ public class BrandController {
 		return brandService.getSingleBrand(id);
 	}
 	
-	@DeleteMapping("delete_brand/{id}")
+	@DeleteMapping("/delete_brand/{id}")
 	public void deleteBrand(@PathVariable long id) {
 		brandService.deleteBrand(id);
 	}
 	
+	@PutMapping("/brands")
+	public BrandModel editBrand(@RequestBody BrandModel brand) {
+		return brandService.updateBrand(brand);
+	}
 	
+	@PostMapping("/brands")
+	public BrandModel createBrand(@RequestBody BrandModel brand) {
+		return brandService.saveBrand(brand);
+	}
 }
